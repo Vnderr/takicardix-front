@@ -1,17 +1,7 @@
 import { useState } from 'react';
-import LoginForm from '../components/molecules/LoginForm'
-import Button from '../components/atoms/Button';
-
+import Forms from '../../components/templates/Forms';
 
 function Contact() {
-
-    const contactFields = [
-        { label: "Nombre", name: "nombre", type: "text", required: true },
-        { label: "Correo", name: "correo", type: "email", required: true, placeholder: "ejemplo@duoc.cl" },
-        { label: "Teléfono", name: "telefono", type: "tel", required: true, placeholder: "9XXXXXXXX" },
-        { label: "Mensaje", name: "mensaje", type: "textarea", required: true }
-    ];
-
     const [formData, setFormData] = useState({
         nombre: "",
         correo: "",
@@ -65,35 +55,37 @@ function Contact() {
         setFormData({ nombre: '', correo: '', telefono: '', mensaje: '' });
     };
 
+    // 🔑 Aquí definimos el contenido dinámico para Forms
+    const content = [
+        {
+            type: "inputs",
+            inputs: [
+                { label: "Nombre", name: "nombre", type: "text", required: true, value: formData.nombre, onChange: handleChange },
+                { label: "Correo", name: "correo", type: "email", required: true, placeholder: "ejemplo@duoc.cl", value: formData.correo, onChange: handleChange },
+                { label: "Teléfono", name: "telefono", type: "tel", required: true, placeholder: "9XXXXXXXX", value: formData.telefono, onChange: handleChange },
+                { label: "Mensaje", name: "mensaje", type: "textarea", required: true, value: formData.mensaje, onChange: handleChange }
+            ]
+        },
+        {
+            type: "button",
+            text: "Enviar",
+            className: "btn btn-primary mt-3",
+            onClick: handleSubmit
+        },
+        {
+            type: "button",
+            text: "Limpiar",
+            className: "btn btn-danger mt-3",
+            onClick: () => setFormData({ nombre: "", correo: "", telefono: "", mensaje: "" })
+        }
+    ];
+
     return (
-        <main className="container my-5 card">
+        <main className="container my-5 card p-4">
             <h2>¿Tienes dudas? Escríbenos</h2>
-            <form onSubmit={handleSubmit}>
-                <LoginForm fields={contactFields} formData={formData} handleChange={handleChange} />
-                <div className="d-flex justify-content-center gap-3 mt-3">
-                    <Button type="submit" >Enviar</Button>
-                    <Button
-                        className="btn-danger"
-                        type="button"
-                        onClick={() =>
-                            setFormData({
-                                nombre: "",
-                                correo: "",
-                                telefono: "",
-                                mensaje: "",
-                            })
-                        }
-                    >
-                        Limpiar
-                    </Button>
-                </div>
-            </form>
+            <Forms content={content} />
         </main>
     );
-
-
-
 }
-
 
 export default Contact;

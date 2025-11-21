@@ -1,20 +1,9 @@
 import { Container, Card } from 'react-bootstrap';
-import Text from '../components/atoms/Text.jsx';
+import Text from '../../components/atoms/Text.jsx';
 import { useState } from "react";
-import LoginForm from '../components/molecules/LoginForm';
-import Button from "../components/atoms/Button";
+import Forms from '../../components/templates/Forms';
 
 function RegistroForm() {
-    const registerFields = [
-    { label: "Nombre", name: "nombre", type: "text", placeholder: "Ingresa tu nombre" },
-    { label: "Correo", name: "correo", type: "email", placeholder: "Ingresa tu correo" },
-    { label: "Confirmar Correo", name: "confirmarCorreo", type: "email", placeholder: "Repite tu correo" },
-    { label: "Contraseña", name: "contraseña", type: "password", placeholder: "Ingresa tu contraseña" },
-    { label: "Confirmar Contraseña", name: "confirmarContraseña", type: "password", placeholder: "Repite tu contraseña" },
-    { label: "Teléfono", name: "telefono", type: "text", placeholder: "Ej: 912345678" },
-    { label: "Confirmar Teléfono", name: "confirmarTelefono", type: "text", placeholder: "Repite tu teléfono" },
-  ];
-
   const [formData, setFormData] = useState({
     nombre: "",
     correo: "",
@@ -52,9 +41,7 @@ function RegistroForm() {
     const correoPattern = /^[\w.-]+@(duocuc\.cl|profesor\.duoc\.cl|gmail\.com)$/;
     if (correo.trim() === "") errores.push("El correo es obligatorio.");
     else if (!correoPattern.test(correo))
-      errores.push(
-        "El correo debe ser @duoc.cl, @profesor.duoc.cl o @gmail.com."
-      );
+      errores.push("El correo debe ser @duoc.cl, @profesor.duoc.cl o @gmail.com.");
     if (correo !== confirmarCorreo)
       errores.push("Los correos no coinciden.");
 
@@ -97,6 +84,42 @@ function RegistroForm() {
     }
   };
 
+  // 🔑 Definimos el contenido dinámico para Forms
+  const content = [
+    {
+      type: "inputs",
+      inputs: [
+        { label: "Nombre", name: "nombre", type: "text", placeholder: "Ingresa tu nombre", value: formData.nombre, onChange: handleChange },
+        { label: "Correo", name: "correo", type: "email", placeholder: "Ingresa tu correo", value: formData.correo, onChange: handleChange },
+        { label: "Confirmar Correo", name: "confirmarCorreo", type: "email", placeholder: "Repite tu correo", value: formData.confirmarCorreo, onChange: handleChange },
+        { label: "Contraseña", name: "contraseña", type: "password", placeholder: "Ingresa tu contraseña", value: formData.contraseña, onChange: handleChange },
+        { label: "Confirmar Contraseña", name: "confirmarContraseña", type: "password", placeholder: "Repite tu contraseña", value: formData.confirmarContraseña, onChange: handleChange },
+        { label: "Teléfono", name: "telefono", type: "text", placeholder: "Ej: 912345678", value: formData.telefono, onChange: handleChange },
+        { label: "Confirmar Teléfono", name: "confirmarTelefono", type: "text", placeholder: "Repite tu teléfono", value: formData.confirmarTelefono, onChange: handleChange }
+      ]
+    },
+    {
+      type: "button",
+      text: "Registrarse",
+      className: "btn btn-primary mt-3",
+      onClick: handleSubmit
+    },
+    {
+      type: "button",
+      text: "Limpiar",
+      className: "btn btn-danger mt-3",
+      onClick: () => setFormData({
+        nombre: "",
+        correo: "",
+        confirmarCorreo: "",
+        contraseña: "",
+        confirmarContraseña: "",
+        telefono: "",
+        confirmarTelefono: "",
+      })
+    }
+  ];
+
   return (
     <Container className="my-5">
       <Card>
@@ -106,30 +129,7 @@ function RegistroForm() {
             Por favor completa todos los campos para crear tu cuenta.
           </Text>
 
-          <form className="forma-registro card" onSubmit={handleSubmit}>
-            <LoginForm fields={registerFields} formData={formData} handleChange={handleChange} />
-
-            <div className="d-flex justify-content-center gap-3 mt-3">
-              <Button type="submit">Registrarse</Button>
-              <Button
-                className="btn-danger"
-                type="button"
-                onClick={() =>
-                  setFormData({
-                    nombre: "",
-                    correo: "",
-                    confirmarCorreo: "",
-                    contraseña: "",
-                    confirmarContraseña: "",
-                    telefono: "",
-                    confirmarTelefono: "",
-                  })
-                }
-              >
-                Limpiar
-              </Button>
-            </div>
-          </form>
+          <Forms content={content} />
         </Card.Body>
       </Card>
     </Container>

@@ -1,39 +1,58 @@
-import { Routes, Route } from 'react-router-dom';
-import NavBar from './components/organisms/Navbar';
-import Home from './pages/Home';
-import Products from './pages/Products';
-import ProductDetail from './pages/ProductDetail';
-import ListProduct from './components/organisms/ListProduct'
-import Contact from './pages/Contact';
-import About from './pages/About';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Cart from './pages/Cart';
+import { Routes, Route, useLocation, matchPath } from 'react-router-dom';
+import { Suspense } from 'react';
+import { adminLinks } from './data/NavbarAdmin';
+import { publicLinks } from './data/NavbarUser';
+import { appRoutes } from './routes/config';
+import Navbar from './components/organisms/Navbar';
 import Footer from './components/organisms/Footer';
 
 
 
-function App() {
+
+function Layout() {
+  const location = useLocation();
+
+  // Detectar si es ruta admin
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
+  // Buscar la ruta actual en la config
+  const currentRoute = appRoutes.find(route =>
+    matchPath({ path: route.path, end: true }, location.pathname)
+  );
+
+  // Mostrar navbar si corresponde
+  const showNavbar = isAdminRoute || currentRoute?.showNavbar;
+
+  // Links y título dinámicos
+  const navbarLinks = isAdminRoute ? adminLinks : publicLinks;
+  const navbarTitle = isAdminRoute ? 'Admin Takicardix' : 'Takicardix';
+
   return (
-    <div className="bg-dark text-light min-vh-100">
-      <>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/products/:id" element={<ProductDetail />} />
-          <Route path="/" element={<ListProduct />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/Register" element={<Register />} />
-          <Route path="/Cart" element={<Cart />} />
-        </Routes>
-        <Footer />
-      </>
-    </div>
+    <>
+      {showNavbar && <Navbar links={navbarLinks} title={navbarTitle} />}
+
+      <main>
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center min-h-screen">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-blue-600"></div>
+            </div>
+          }
+        >
+          <Routes>
+            {appRoutes.map(({ path, element }) => (
+              <Route key={path} path={path} element={element} />
+            ))}
+          </Routes>
+        </Suspense>
+      </main>
+      <Footer />
+    </>
   );
 }
 
+function App() {
+  return <Layout />;
+}
 
 export default App;

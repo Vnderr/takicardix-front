@@ -1,29 +1,64 @@
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 
-function NavBar() {
+function Navbar({ links, title }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    navigate('/login');
+    setIsOpen(false);
+  };
+
+  const handleLinkClick = (e, link) => {
+    if (link.label === 'Salir') {
+      e.preventDefault();
+      handleLogout();
+    } else {
+      setIsOpen(false);
+    }
+  };
+
   return (
-    <Navbar bg="black" variant="dark" expand="lg" className="navbar">
-      <Container>
-        <Navbar.Brand href="/">Takicardix</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="/">Inicio</Nav.Link>
-            <Nav.Link href="/products">Productos</Nav.Link>
-            <Nav.Link href="/contact">Contacto</Nav.Link>
-            <Nav.Link href="/about">Nosotros</Nav.Link>
-          </Nav>
-          <Nav>
-                        <Nav.Link href="/login">Iniciar sesión</Nav.Link>
-            <Nav.Link href="/register">Registrar</Nav.Link>
-            <Nav.Link href="/cart">
-              🛒 Carrito <span id="conteo-carrito" className="badge bg-secondary">0</span>
-            </Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+    <nav className="bg-black text-white shadow-lg sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          <div className="flex-shrink-0">
+            <h1 className="text-2xl font-bold tracking-wider text-red-600">
+              {title}
+            </h1>
+          </div>
+
+          <div className="hidden md:flex space-x-8">
+            {links.map((link, i) => (
+              <NavLink
+                key={i}
+                to={link.to}
+                onClick={(e) => handleLinkClick(e, link)}
+                className={({ isActive }) =>
+                  `px-3 py-2 text-lg font-medium transition-all duration-300 ${
+                    isActive
+                      ? 'text-red-500 border-b-2 border-red-500'
+                      : 'text-gray-300 hover:text-red-500 hover:border-b-2 hover:border-red-500'
+                  }`
+                }
+              >
+                {link.label}
+              </NavLink>
+            ))}
+          </div>
+        </div>
+      </div>
+
+    </nav>
   );
 }
 
-export default NavBar;
+export default Navbar;
+
+
+
+
+
