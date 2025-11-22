@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CardsDisplay from "../../components/organisms/CardsDisplay";
 import { agregarAlCarrito } from "../../data/Cart";
-import ProductoService from "../../services/ProductoService";
+import ProductoService from "../../services/Producto";
 
 function Home() {
   const navigate = useNavigate();
