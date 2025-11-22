@@ -1,38 +1,60 @@
+/* src/components/organisms/Navbar.css */
 .navbar {
     background-color: #000;
+    /* fondo negro */
     color: #0d6e0d;
+    /* verde oscuro general */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 .navbar-title {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #0d6e0d;
+    color: #09b509;
+    /* verde más brillante para el título */
+    margin-right: 1.5rem;
+}
+
+.navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 4rem;
 }
 
 .navbar-section {
+    display: flex;
+    align-items: center;
     gap: 1.5rem;
 }
 
 .navbar-left {
+    flex-grow: 1;
+    /* ocupa espacio y empuja la derecha */
     justify-content: flex-start;
 }
 
 .navbar-right {
+    flex-shrink: 0;
+    /* se mantiene pegado a la derecha */
     justify-content: flex-end;
 }
 
 .navbar-link {
     font-size: 1.1rem;
     color: #32CD32;
+    /* verde menos fuerte */
     text-decoration: none;
+    /* sin subrayado */
     transition: color 0.3s ease;
 }
 
 .navbar-link:hover {
     color: #7CFC00;
+    /* verde más claro al hover */
 }
 
 .navbar-link.active {
     color: #7CFC00;
+    /* verde claro cuando está activo */
 }
