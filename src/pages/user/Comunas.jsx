@@ -3,7 +3,7 @@ import Section from "../../components/templates/Section";
 import CreateModal from "../../components/organisms/CreateModal";
 import Button from "../../components/atoms/Button";
 import ComunaService from "../services/ComunaService";
-import { generarMensaje } from "../utils/GenerarMensaje";
+import { generarMensaje } from "../../utils/GenerarMensaje";
 
 const createInputs = [
     { name: "nombre", type: "text", placeholder: "Nombre de la comuna", required: true },
