@@ -26,8 +26,8 @@ function Navbar({ links, title }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Título */}
-          <div className="flex-shrink-0">
-            <h1 className="text-2xl font-bold tracking-wider !text-green-500">
+          <div className="flex-shrink-0 text-green-500">
+            <h1 className="text-2xl font-bold tracking-wider">
               {title}
             </h1>
           </div>
