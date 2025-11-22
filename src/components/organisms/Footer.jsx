@@ -1,25 +1,30 @@
-import { Container, Row, Col } from 'react-bootstrap';
-
 function Footer() {
   return (
-    <footer className="bg-black footer py-4 mt-5 " >
-      <Container>
-        <Row>
-  <Col md={4}>
-    <h5>Takicardix</h5>
-    <p>Tu tienda de energeticas.</p>
-  </Col>
-  <Col md={4}></Col> {/* Espacio vacío */}
-  <Col md={4} className="text-end">
-    <h5>Contacto</h5>
-    <p>Email: contacto@takicardix.cl</p>
-    <p>Teléfono: +56 9 1234 5678</p>
-  </Col>
-</Row>
+    <footer className="bg-black text-white py-6 mt-10">
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Grid de 3 columnas */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Columna 1 */}
+          <div>
+            <h5 className="text-lg font-semibold">Takicardix</h5>
+            <p className="text-gray-400">Tu tienda de energéticas.</p>
+          </div>
 
-        <hr className="bg-light" />
-        <p className="text-center mb-0">&copy; {new Date().getFullYear()} Takicardix. Todos los derechos reservados.</p>
-      </Container>
+          <div></div>
+
+          <div className="md:text-right">
+            <h5 className="text-lg font-semibold">Contacto</h5>
+            <p className="text-gray-400">Email: contacto@takicardix.cl</p>
+            <p className="text-gray-400">Teléfono: +56 9 1234 5678</p>
+          </div>
+        </div>
+
+        <hr className="border-gray-700 my-4" />
+
+        <p className="text-center text-gray-500 text-sm">
+          &copy; {new Date().getFullYear()} Takicardix. Todos los derechos reservados.
+        </p>
+      </div>
     </footer>
   );
 }
