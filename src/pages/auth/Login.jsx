@@ -1,83 +1,73 @@
-import axios from 'axios';
+import { useState } from "react";
+import Forms from "../../components/templates/Forms";
+import Usuario from "../../services/Usuario";
 
-const BASE_URL = 'https://takicardix.onrender.com/api/usuarios';
+function FormLogin() {
+  const [formData, setFormData] = useState({
+    correo: "",
+    contraseña: "",
+  });
 
-class UsuarioService {
-  async getAllUsuarios() {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { correo, contraseña } = formData;
+
     try {
-      const response = await axios.get(BASE_URL);
-      return response.data;
-    } catch (error) {
-      console.error('Error al obtener los usuarios:', error);
-      throw error;
+      const usuario = await Usuario.login(correo, contraseña);
+      alert(`Hola :D ${usuario.nombre}`);
+      setFormData({ correo: "", contraseña: "" });
+    } catch (err) {
+      alert("Impostor D:");
     }
-  }
+  };
 
-  async getUsuarioById(id) {
-    try {
-      const response = await axios.get(`${BASE_URL}/${id}`);
-      return response.data;
-    } catch (error) {
-      console.error('Error al obtener el usuario:', error);
-      throw error;
-    }
-  }
+  const content = [
+    {
+      type: "inputs",
+      inputs: [
+        {
+          label: "Correo",
+          name: "correo",
+          type: "email",
+          placeholder: "ejemplo@correo.com",
+          value: formData.correo,
+          onChange: handleChange,
+        },
+        {
+          label: "Contraseña",
+          name: "contraseña",
+          type: "password",
+          placeholder: "********",
+          value: formData.contraseña,
+          onChange: handleChange,
+        },
+      ],
+    },
+    {
+      type: "button",
+      text: "Iniciar sesión",
+      className: "btn btn-primary mt-3",
+      onClick: handleSubmit,
+    },
+    {
+      type: "button",
+      text: "Limpiar",
+      className: "btn btn-danger mt-3",
+      onClick: () => setFormData({ correo: "", contraseña: "" }),
+    },
+  ];
 
-  async createUsuario(usuarioData) {
-    try {
-      const response = await axios.post(BASE_URL, usuarioData, {
-        headers: { 'Content-Type': 'application/json' },
-      });
-      return response.data;
-    } catch (error) {
-      console.error('Error al crear el usuario:', error.response?.data || error.message);
-      throw error;
-    }
-  }
-
-  async updateUsuario(id, usuarioData) {
-    try {
-      const response = await axios.patch(`${BASE_URL}/${id}`, usuarioData, {
-        headers: { 'Content-Type': 'application/json' },
-      });
-      return response.data;
-    } catch (error) {
-      console.error('Error al actualizar el usuario:', error);
-      throw error;
-    }
-  }
-
-  async deleteUsuario(id) {
-    try {
-      await axios.delete(`${BASE_URL}/${id}`);
-      return true;
-    } catch (error) {
-      console.error('Error al eliminar el usuario:', error);
-      throw error;
-    }
-  }
-
-  async getUsuarioByCorreo(correo) {
-    try {
-      const response = await axios.get(`${BASE_URL}/correo/${correo}`);
-      return response.data;
-    } catch (error) {
-      console.error('Error al obtener usuario por correo:', error.response?.data || error.message);
-      throw error;
-    }
-  }
-
-  async login(usuario) {
-    try {
-      const response = await axios.post(`${BASE_URL}/login`, usuario, {
-        headers: { 'Content-Type': 'application/json' },
-      });
-      return response.data;
-    } catch (error) {
-      console.error('Error al iniciar sesión:', error.response?.data || error.message);
-      throw error;
-    }
-  }
+  return (
+    <main className="container my-5 card p-4">
+      <h2>Iniciar sesión</h2>
+      <Forms content={content} />
+    </main>
+  );
 }
 
-export default new UsuarioService();
+export default FormLogin;

@@ -2,7 +2,7 @@ import { Container, Card } from 'react-bootstrap';
 import Text from '../../components/atoms/Text.jsx';
 import { useState } from "react";
 import Forms from '../../components/templates/Forms';
-import UsuarioService from "../../services/UsuarioService"; // <-- usamos el service
+import Usuario from "../../services/Usuario"; 
 
 function RegistroForm() {
   const [formData, setFormData] = useState({
@@ -62,7 +62,7 @@ function RegistroForm() {
     } else {
       try {
         // Llamada al backend
-        await UsuarioService.createUsuario({
+        await Usuario.createUsuario({
           nombre,
           correo,
           contrasena: contraseña, // ojo: backend espera "contrasena" sin tilde
