@@ -27,7 +27,7 @@ function Navbar({ links, title }) {
         <div className="flex justify-between items-center h-16">
           {/* Título */}
           <div className="flex-shrink-0">
-            <h1 className="text-2xl font-bold tracking-wider text-green-400">
+            <h1 className="text-2xl font-bold tracking-wider text-green-500">
               {title}
             </h1>
           </div>
@@ -40,10 +40,11 @@ function Navbar({ links, title }) {
                 to={link.to}
                 onClick={(e) => handleLinkClick(e, link)}
                 className={({ isActive }) =>
-                    `relative px-3 py-2 text-lg font-medium transition-all duration-300
-                    ${isActive ? 'text-green-400' : 'text-green-500 hover:text-green-300'}
-                    after:content-[''] after:block after:w-0 after:h-[2px] after:bg-green-400
-                    after:transition-all after:duration-300 hover:after:w-full`
+                  `px-3 py-2 text-lg font-medium transition-all duration-300 ${
+                    isActive
+                      ? 'text-green-400 border-b-2 border-green-400'
+                      : 'text-green-500 hover:text-green-300 hover:border-b-2 hover:border-green-300'
+                  }`
                 }
               >
                 {link.label}
