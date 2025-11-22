@@ -55,7 +55,6 @@ function Contact() {
         setFormData({ nombre: '', correo: '', telefono: '', mensaje: '' });
     };
 
-    // 🔑 Aquí definimos el contenido dinámico para Forms
     const content = [
         {
             type: "inputs",

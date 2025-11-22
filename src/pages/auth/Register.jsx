@@ -30,7 +30,6 @@ function RegistroForm() {
       telefono,
     } = formData;
 
-    // Validaciones
     const nombrePattern = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
     if (!nombrePattern.test(nombre))
       errores.push("El nombre solo puede contener letras y espacios.");
@@ -61,11 +60,10 @@ function RegistroForm() {
       alert(errores.join("\n"));
     } else {
       try {
-        // Llamada al backend
         await Usuario.createUsuario({
           nombre,
           correo,
-          contrasena: contraseña, // ojo: backend espera "contrasena" sin tilde
+          contrasena: contraseña, 
           telefono,
         });
 
