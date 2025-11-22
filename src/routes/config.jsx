@@ -21,6 +21,7 @@ const HomeProductos = lazy(() => import('../pages/admin/Productos/HomeProductos'
 const HomeVentas = lazy(() => import('../pages/admin/Ventas/HomeVentas'));
 const HomeComunas = lazy(() => import('../pages/admin/Comunas/HomeComunas'));
 const HomeFacciones = lazy(() => import('../pages/admin/Facciones/HomeFacciones'));
+
 */
 
 // Rutas públicas/usuario
