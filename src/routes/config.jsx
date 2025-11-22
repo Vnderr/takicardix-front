@@ -8,7 +8,7 @@ const Cart = lazy(() => import('../pages/user/Cart'));
 const Comunas = lazy(() => import('../pages/user/Comunas'));
 const Contact = lazy(() => import('../pages/user/Contact'));
 const About = lazy(() => import('../pages/user/About'));
-const Profile = lazy(() => import('../pages/user/Perfil'));
+const Profile = lazy(() => import('../pages/user/Profile'));
 
 // Auth
 const Login = lazy(() => import('../pages/auth/Login'));
