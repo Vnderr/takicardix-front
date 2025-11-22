@@ -8,11 +8,14 @@ function Home() {
   const navigate = useNavigate();
   const [productos, setProductos] = useState([]);
 
-  useEffect(() => {
-    ProductoService.getAllProductos()
-      .then((data) => setProductos(data))
-      .catch((err) => console.error("Error al cargar productos:", err));
-  }, []);
+useEffect(() => {
+  ProductoService.getAllProductos()
+    .then((data) => {
+      setProductos(Array.isArray(data) ? data : []);
+    })
+    .catch((err) => console.error("Error al cargar productos:", err));
+}, []);
+
 
   const content = productos.slice(0, 4).map((product) => ({
     card: [
