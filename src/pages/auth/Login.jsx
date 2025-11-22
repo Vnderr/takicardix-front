@@ -1,11 +1,11 @@
 import { useState } from "react";
 import Forms from "../../components/templates/Forms";
-import Usuario from "../../services/Usuario";
+import Usuario from "../../services/Usuario"; // 👈 asegúrate de importar bien
 
 function FormLogin() {
   const [formData, setFormData] = useState({
     correo: "",
-    contraseña: "",
+    contrasena: "", // 👈 sin tilde
   });
 
   const handleChange = (e) => {
@@ -15,12 +15,13 @@ function FormLogin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { correo, contraseña } = formData;
+    const { correo, contrasena } = formData;
 
     try {
-      const usuario = await Usuario.login(correo, contraseña);
+      // 👇 el service debe enviar { correo, contrasena }
+      const usuario = await Usuario.login({ correo, contrasena });
       alert(`Hola :D ${usuario.nombre}`);
-      setFormData({ correo: "", contraseña: "" });
+      setFormData({ correo: "", contrasena: "" });
     } catch (err) {
       alert("Impostor D:");
     }
@@ -40,10 +41,10 @@ function FormLogin() {
         },
         {
           label: "Contraseña",
-          name: "contraseña",
+          name: "contrasena", // 👈 sin tilde
           type: "password",
           placeholder: "********",
-          value: formData.contraseña,
+          value: formData.contrasena,
           onChange: handleChange,
         },
       ],
@@ -58,7 +59,7 @@ function FormLogin() {
       type: "button",
       text: "Limpiar",
       className: "btn btn-danger mt-3",
-      onClick: () => setFormData({ correo: "", contraseña: "" }),
+      onClick: () => setFormData({ correo: "", contrasena: "" }),
     },
   ];
 
