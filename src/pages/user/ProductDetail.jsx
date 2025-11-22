@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CardsDisplay from "../../components/organisms/CardsDisplay";
 import { agregarAlCarrito } from "../../data/Cart";
-import ProductoService from "../../services/Producto"; 
+import Producto from "../../services/Producto"; 
 
 function ProductDetail() {
   const { id } = useParams();
@@ -11,7 +11,7 @@ function ProductDetail() {
 
   useEffect(() => {
     // Llamada al backend para obtener el producto por ID
-    ProductoService.getProductoById(id)
+    Producto.getProductoById(id)
       .then((data) => setProduct(data))
       .catch((err) => console.error("Error al cargar producto:", err));
   }, [id]);

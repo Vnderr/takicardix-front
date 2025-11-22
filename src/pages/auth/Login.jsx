@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Forms from "../../components/templates/Forms";
-import UserService from "../../services/UserService";
+import Usuario from "../../services/Usuario";
 
 function FormLogin() {
   const [formData, setFormData] = useState({
@@ -18,7 +18,7 @@ function FormLogin() {
     const { correo, contraseña } = formData;
 
     try {
-      const usuario = await UserService.login(correo, contraseña);
+      const usuario = await Usuario.login(correo, contraseña);
       alert(`Hola :D ${usuario.nombre}`);
       setFormData({ correo: "", contraseña: "" });
     } catch (err) {

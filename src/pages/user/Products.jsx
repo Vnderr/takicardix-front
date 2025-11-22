@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ProductoService from "../../services/Producto";
+import Producto from "../../services/Producto";
 import CardsDisplay from "../../components/organisms/CardsDisplay";
 import { agregarAlCarrito } from "../../data/Cart";
 
@@ -12,7 +12,7 @@ function Products() {
   useEffect(() => {
     const fetchProductos = async () => {
       try {
-        const data = await ProductoService.getAllProductos();
+        const data = await Producto.getAllProductos();
         setProductos(data);
       } catch (err) {
         setError("Error al cargar productos: " + (err.response?.data || err.message));
