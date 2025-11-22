@@ -7,4 +7,5 @@ export const publicLinks = [
     { to: '/register', label: 'Registrar' },
     { to: '/cart', label: '🛒 Carrito' },
     { to: '/profile', label: 'Perfil' },
+    { to: '/orders', label: 'Mis Compras' },
 ];

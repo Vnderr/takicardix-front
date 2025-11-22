@@ -9,6 +9,7 @@ const Comunas = lazy(() => import('../pages/user/Comunas'));
 const Contact = lazy(() => import('../pages/user/Contact'));
 const About = lazy(() => import('../pages/user/About'));
 const Profile = lazy(() => import('../pages/user/Profile'));
+const Orders = lazy(() => import('../pages/user/Orders'));
 
 // Auth
 const Login = lazy(() => import('../pages/auth/Login'));
@@ -36,6 +37,7 @@ const publicRoutes = [
     { path: '/login', element: <Login />, showNavbar: true },
     { path: '/register', element: <Register />, showNavbar: true },
     { path: '/profile', element: <Profile />, showNavbar: true },
+    { path: '/orders', element: <Orders />, showNavbar: true },
 ];
 
 /* Rutas admin
