@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 const BASE_URL = 'https://takicardix.onrender.com/api/usuarios';
 
 class UsuarioService {
@@ -69,14 +68,17 @@ class UsuarioService {
         }
     }
 
-        login(usuario) {
-            return axios.post(`${BASE_URL}/login`, usuario);
+    async login(usuario) {
+        try {
+            const response = await axios.post(`${BASE_URL}/login`, usuario, {
+                headers: { 'Content-Type': 'application/json' },
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error al iniciar sesión:', error.response?.data || error.message);
+            throw error;
         }
-
-        createUser(usuario) {
-            return axios.post(`${BASE_URL}`, usuario);
-        }
-
     }
+}
 
 export default new UsuarioService();
