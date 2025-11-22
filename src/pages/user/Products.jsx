@@ -4,18 +4,20 @@ import ProductoService from "../../services/Producto";
 function Products() {
   const [productos, setProductos] = useState([]);
 
-  useEffect(() => {
-    const fetchProductos = async () => {
-      try {
-        const data = await ProductoService.getAllProductos();
-        console.log("Productos recibidos:", data); // 👀 debe ser un array con 10 objetos
-        setProductos(Array.isArray(data) ? data : [data]); // fuerza array si viene un objeto
-      } catch (err) {
-        console.error("Error al cargar productos:", err);
-      }
-    };
-    fetchProductos();
-  }, []);
+useEffect(() => {
+  console.log("Entrando a fetchProductos..."); // 👀
+  const fetchProductos = async () => {
+    try {
+      const data = await ProductoService.getAllProductos();
+      console.log("Productos recibidos:", data);
+      setProductos(data);
+    } catch (err) {
+      console.error("Error al cargar productos:", err);
+    }
+  };
+  fetchProductos();
+}, []);
+
 
 
   return (
