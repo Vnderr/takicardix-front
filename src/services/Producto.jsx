@@ -72,6 +72,17 @@ class ProductoService {
         }
     }
 
+    async getProductoById(id) {
+    try {
+        const response = await axios.get(`${BASE_URL}/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error al obtener producto por ID:', error.response?.data || error.message);
+        throw error;
+    }
+}
+
+
     async deleteByMarcaId(marcaId) {
         try {
             await axios.delete(`${BASE_URL}/marca/${marcaId}`);
