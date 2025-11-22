@@ -8,7 +8,8 @@ function Products() {
     const fetchProductos = async () => {
       try {
         const data = await ProductoService.getAllProductos();
-        setProductos(data);
+        console.log("Productos recibidos:", data); // 👀 debe ser un array con 10 objetos
+        setProductos(Array.isArray(data) ? data : [data]); // fuerza array si viene un objeto
       } catch (err) {
         console.error("Error al cargar productos:", err);
       }
@@ -16,11 +17,12 @@ function Products() {
     fetchProductos();
   }, []);
 
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
-      {productos.map((p) => (
+      {productos.map((p, index) => (
         <div
-          key={p.producto_id}
+          key={index} // 👈 usa index en vez de producto_id
           className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition"
         >
           <img
