@@ -39,9 +39,7 @@ function Navbar({ links, title }) {
                 to={link.to}
                 onClick={(e) => handleLinkClick(e, link)}
                 className={({ isActive }) =>
-                  `px-3 py-2 text-lg font-medium transition-all duration-300 ${isActive
-                    ? 'border-b-2'
-                    : 'hover:border-b-2'
+                  `navbar-link px-3 py-2 text-lg font-medium transition-all duration-300 ${isActive
                   }`
                 }
               >
