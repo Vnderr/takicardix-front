@@ -28,7 +28,7 @@ class MarcaService {
         }
     }
 
-    async updateComuna(id, marcaData) {
+    async updateMarca(id, marcaData) {
         try {
             const response = await axios.patch(`${BASE_URL}/${id}`, marcaData);
             return response.data;
@@ -38,7 +38,7 @@ class MarcaService {
         }
     }
 
-    async deleteComuna(id) {
+    async deleteMarca(id) {
         try {
             await axios.delete(`${BASE_URL}/${id}`);
             return true;
@@ -49,4 +49,4 @@ class MarcaService {
     }
 }
 
-export default new ComunaService();
+export default new MarcaService();
