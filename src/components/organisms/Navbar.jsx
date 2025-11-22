@@ -27,7 +27,7 @@ function Navbar({ links, title }) {
         <div className="flex justify-between items-center h-16">
           {/* Título */}
           <div className="flex-shrink-0">
-            <h1 className="text-2xl font-bold tracking-wider text-green-500">
+            <h1 className="text-2xl font-bold tracking-wider !text-green-500">
               {title}
             </h1>
           </div>
@@ -42,8 +42,8 @@ function Navbar({ links, title }) {
                 className={({ isActive }) =>
                   `px-3 py-2 text-lg font-medium transition-all duration-300 ${
                     isActive
-                      ? 'text-green-400 border-b-2 border-green-400'
-                      : 'text-green-500 hover:text-green-300 hover:border-b-2 hover:border-green-300'
+                      ? '!text-green-400 border-b-2 border-green-400'
+                      : '!text-green-500 hover:!text-green-300 hover:border-b-2 hover:border-green-300'
                   }`
                 }
               >
