@@ -4,9 +4,8 @@ import { publicLinks } from '../../data/NavbarUser';
 import '../../styles/navbar.css';
 
 function Navbar({ title }) {
-  // Separa dinámicamente según el label
-  const leftLinks = publicLinks.filter(
-    (link) => !['Inicio', 'Producto', 'Contacto', 'Nosostros', 'Perfil', 'Mis compras'].includes(link.label)
+  const leftLinks = publicLinks.filter((link) =>
+    ['Inicio', 'Productos', 'Contacto', 'Nosotros', 'Perfil', 'Mis Compras'].includes(link.label)
   );
   const rightLinks = publicLinks.filter(
     (link) => ['Iniciar sesión', 'Registrar', '🛒 Carrito'].includes(link.label)
