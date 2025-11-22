@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Section from "../..components/templates/Section";
-import CreateModal from "../..components/organisms/CreateModal";
-import Button from "../..components/atoms/Button";
-import ComunaService from "../..services/ComunaService";
+import Section from "../../components/templates/Section";
+import CreateModal from "../../components/organisms/CreateModal";
+import Button from "../../components/atoms/Button";
+import ComunaService from "../../services/ComunaService";
 import { generarMensaje } from "../../utils/GenerarMensaje";
 
 const createInputs = [
