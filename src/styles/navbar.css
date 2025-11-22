@@ -1,0 +1,25 @@
+.navbar {
+    background-color: #000;
+    color: #0d6e0d;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+.navbar-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #0d6e0d;
+}
+.navbar-link {
+    font-size: 1.1rem;
+    color: #32CD32;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.navbar-link:hover {
+    color: #7CFC00;
+
+}
+
+.navbar-link.active {
+    color: #7CFC00;
+}
