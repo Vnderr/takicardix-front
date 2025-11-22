@@ -10,8 +10,10 @@ function Footer() {
             <p className="text-gray-400">Tu tienda de energéticas.</p>
           </div>
 
+          {/* Columna 2 (espacio vacío) */}
           <div></div>
 
+          {/* Columna 3 */}
           <div className="md:text-right">
             <h5 className="text-lg font-semibold">Contacto</h5>
             <p className="text-gray-400">Email: contacto@takicardix.cl</p>
@@ -19,10 +21,12 @@ function Footer() {
           </div>
         </div>
 
+        {/* Separador */}
         <hr className="border-gray-700 my-4" />
 
+        {/* Copyright */}
         <p className="text-center text-gray-500 text-sm">
-          &copy; {new Date().getFullYear()} Takicardix. Todos los derechos reservados.
+          &copy; 2025 Takicardix. Todos los derechos reservados.
         </p>
       </div>
     </footer>
