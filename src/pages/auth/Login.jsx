@@ -1,11 +1,11 @@
 import { useState } from "react";
 import Forms from "../../components/templates/Forms";
-import Usuario from "../../services/Usuario"; // 👈 asegúrate de importar bien
+import Usuario from "../../services/Usuario"; 
 
 function FormLogin() {
   const [formData, setFormData] = useState({
     correo: "",
-    contrasena: "", // 👈 sin tilde
+    contrasena: "",
   });
 
   const handleChange = (e) => {
@@ -41,7 +41,7 @@ function FormLogin() {
         },
         {
           label: "Contraseña",
-          name: "contrasena", // 👈 sin tilde
+          name: "contrasena", 
           type: "password",
           placeholder: "********",
           value: formData.contrasena,
