@@ -19,6 +19,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    /* separa izquierda y derecha */
     height: 4rem;
 }
 
@@ -29,15 +30,21 @@
 }
 
 .navbar-left {
+    display: flex;
+    /* 🔹 ahora es flex */
     flex-grow: 1;
     /* ocupa espacio y empuja la derecha */
     justify-content: flex-start;
+    /* alinea a la izquierda */
 }
 
 .navbar-right {
+    display: flex;
+    /* 🔹 ahora es flex */
     flex-shrink: 0;
     /* se mantiene pegado a la derecha */
     justify-content: flex-end;
+    /* alinea a la derecha */
 }
 
 .navbar-link {
