@@ -1,11 +1,11 @@
 import { useState } from "react";
 import Forms from "../../components/templates/Forms";
-import Usuario from "../../services/Usuario"; 
+import Usuario from "../../services/Usuario"; // 👈 importa el service correcto
 
 function FormLogin() {
   const [formData, setFormData] = useState({
     correo: "",
-    contrasena: "",
+    contrasena: "", // 👈 sin tilde
   });
 
   const handleChange = (e) => {
@@ -18,12 +18,16 @@ function FormLogin() {
     const { correo, contrasena } = formData;
 
     try {
-      // 👇 el service debe enviar { correo, contrasena }
+      // 👇 el service envía { correo, contrasena } al backend
       const usuario = await Usuario.login({ correo, contrasena });
+
+      // Si el backend devuelve el usuario, mostramos su nombre
       alert(`Hola :D ${usuario.nombre}`);
+
+      // Limpiamos el formulario
       setFormData({ correo: "", contrasena: "" });
     } catch (err) {
-      alert("Impostor D:");
+      alert("Impostor D: Credenciales incorrectas");
     }
   };
 
@@ -41,7 +45,7 @@ function FormLogin() {
         },
         {
           label: "Contraseña",
-          name: "contrasena", 
+          name: "contrasena", // 👈 sin tilde
           type: "password",
           placeholder: "********",
           value: formData.contrasena,
