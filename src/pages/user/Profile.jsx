@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Text from "../../components/atoms/Text.jsx";
 import Forms from "../../components/templates/Forms";
-import UsuarioS from "../../services/Usuario";
+import Usuario from "../../services/Usuario";
 
 function Profile() {
     const [usuario, setUsuario] = useState(null);

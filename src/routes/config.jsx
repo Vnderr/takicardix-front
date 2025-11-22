@@ -34,7 +34,7 @@ const publicRoutes = [
     { path: '/about', element: <About />, showNavbar: true },
     { path: '/login', element: <Login />, showNavbar: true },
     { path: '/register', element: <Register />, showNavbar: true },
-    {path: '/profile', element: <Profile />, showNavbar: true },
+    { path: '/profile', element: <Profile />, showNavbar: true },
 ];
 
 /* Rutas admin
