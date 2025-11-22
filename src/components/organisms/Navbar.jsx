@@ -14,40 +14,40 @@ function Navbar({ title }) {
 
   return (
     <nav className="navbar shadow-lg sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 navbar-container">
-        {/* Título */}
-        <h1 className="navbar-title">{title}</h1>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="navbar-container">
+          <h1 className="navbar-title">{title}</h1>
 
-        {/* Links izquierda */}
-        <div className="navbar-left">
-          {leftLinks.map((link, i) => (
-            <NavLink
-              key={i}
-              to={link.to}
-              className={({ isActive }) =>
-                `navbar-link ${isActive ? 'active' : ''}`
-              }
-            >
-              {link.label}
-            </NavLink>
-          ))}
-        </div>
+          <div className="navbar-left">
+            {leftLinks.map((link, i) => (
+              <NavLink
+                key={i}
+                to={link.to}
+                className={({ isActive }) =>
+                  `navbar-link ${isActive ? 'active' : ''}`
+                }
+              >
+                {link.label}
+              </NavLink>
+            ))}
+          </div>
 
-        {/* Links derecha */}
-        <div className="navbar-right">
-          {rightLinks.map((link, i) => (
-            <NavLink
-              key={i}
-              to={link.to}
-              className={({ isActive }) =>
-                `navbar-link ${isActive ? 'active' : ''}`
-              }
-            >
-              {link.label}
-            </NavLink>
-          ))}
+          <div className="navbar-right">
+            {rightLinks.map((link, i) => (
+              <NavLink
+                key={i}
+                to={link.to}
+                className={({ isActive }) =>
+                  `navbar-link ${isActive ? 'active' : ''}`
+                }
+              >
+                {link.label}
+              </NavLink>
+            ))}
+          </div>
         </div>
       </div>
+
     </nav>
   );
 }
