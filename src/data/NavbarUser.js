@@ -6,4 +6,5 @@ export const publicLinks = [
     { to: '/login', label: 'Iniciar sesión' },
     { to: '/register', label: 'Registrar' },
     { to: '/cart', label: '🛒 Carrito' },
+    { to: '/profile', label: 'Perfil' },
 ];
