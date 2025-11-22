@@ -1,12 +1,13 @@
-import { useState } from 'react';
-import Forms from '../../components/templates/Forms';
+import { useState } from "react";
+import Forms from "../../components/templates/Forms";
+import ContactService from "../../services/ContactService";
 
 function Contact() {
     const [formData, setFormData] = useState({
         nombre: "",
         correo: "",
         telefono: "",
-        mensaje: ""
+        mensaje: "",
     });
 
     const handleChange = (e) => {
@@ -14,7 +15,7 @@ function Contact() {
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const { nombre, correo, telefono, mensaje } = formData;
         const errores = [];
@@ -42,20 +43,15 @@ function Contact() {
             return;
         }
 
-        let totalContactos = parseInt(localStorage.getItem("total_contactos")) || 0;
-        totalContactos++;
-        localStorage.setItem("total_contactos", totalContactos);
-
-        localStorage.setItem(`contacto_${totalContactos}_nombre`, nombre);
-        localStorage.setItem(`contacto_${totalContactos}_correo`, correo);
-        localStorage.setItem(`contacto_${totalContactos}_telefono`, telefono);
-        localStorage.setItem(`contacto_${totalContactos}_mensaje`, mensaje);
-
-        alert("Mensaje enviado exitosamente.");
-        setFormData({ nombre: '', correo: '', telefono: '', mensaje: '' });
+        try {
+            await ContactService.createContacto(formData);
+            alert("Mensaje enviado exitosamente.");
+            setFormData({ nombre: "", correo: "", telefono: "", mensaje: "" });
+        } catch (err) {
+            alert("Error al enviar el mensaje. Intenta nuevamente.");
+        }
     };
 
-    // 🔑 Aquí definimos el contenido dinámico para Forms
     const content = [
         {
             type: "inputs",
