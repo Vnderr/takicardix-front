@@ -3,11 +3,14 @@
     color: #0d6e0d;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
+
 .navbar-titulo {
+    text-align: left;
     font-size: 1.5rem;
     font-weight: bold;
     color: #0d6e0d;
 }
+
 .navbar-link {
     font-size: 1.1rem;
     color: #32CD32;
