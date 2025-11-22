@@ -1,33 +1,15 @@
-import React, { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { publicLinks } from '../../data/publicLinks';
 import '../../styles/navbar.css';
 
-function Navbar({ links, title }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    navigate('/login');
-    setIsOpen(false);
-  };
-
-  const handleLinkClick = (e, link) => {
-    if (link.label === 'Salir') {
-      e.preventDefault();
-      handleLogout();
-    } else {
-      setIsOpen(false);
-    }
-  };
-
-  // Separar links
-  const leftLinks = links.filter(
-    (link) => !['Iniciar sesión', 'Registrarse', 'Carrito'].includes(link.label)
+function Navbar({ title }) {
+  // Separa dinámicamente según el label
+  const leftLinks = publicLinks.filter(
+    (link) => !['Iniciar sesión', 'Registrar', '🛒 Carrito'].includes(link.label)
   );
-  const rightLinks = links.filter(
-    (link) => ['Iniciar sesión', 'Registrarse', 'Carrito'].includes(link.label)
+  const rightLinks = publicLinks.filter(
+    (link) => ['Iniciar sesión', 'Registrar', '🛒 Carrito'].includes(link.label)
   );
 
   return (
@@ -37,12 +19,11 @@ function Navbar({ links, title }) {
         <h1 className="navbar-title">{title}</h1>
 
         {/* Links izquierda */}
-        <div className="navbar-section navbar-left">
+        <div className="navbar-left">
           {leftLinks.map((link, i) => (
             <NavLink
               key={i}
               to={link.to}
-              onClick={(e) => handleLinkClick(e, link)}
               className={({ isActive }) =>
                 `navbar-link ${isActive ? 'active' : ''}`
               }
@@ -53,12 +34,11 @@ function Navbar({ links, title }) {
         </div>
 
         {/* Links derecha */}
-        <div className="navbar-section navbar-right">
+        <div className="navbar-right">
           {rightLinks.map((link, i) => (
             <NavLink
               key={i}
               to={link.to}
-              onClick={(e) => handleLinkClick(e, link)}
               className={({ isActive }) =>
                 `navbar-link ${isActive ? 'active' : ''}`
               }
