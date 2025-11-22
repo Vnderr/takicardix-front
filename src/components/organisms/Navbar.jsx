@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import '../../styles/navbar.css';
-
 
 function Navbar({ links, title }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,15 +22,15 @@ function Navbar({ links, title }) {
   };
 
   return (
-    <nav className="navbar shadow-lg sticky top-0 z-50">
+    <nav className="shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Título */}
           <div className="flex-shrink-0">
-            <h1 className="navbar-title">{title}</h1>
+            <h1 className="text-2xl font-bold tracking-wider">
+              {title}
+            </h1>
           </div>
 
-          {/* Links desktop */}
           <div className="hidden md:flex space-x-8">
             {links.map((link, i) => (
               <NavLink
@@ -40,7 +38,10 @@ function Navbar({ links, title }) {
                 to={link.to}
                 onClick={(e) => handleLinkClick(e, link)}
                 className={({ isActive }) =>
-                  `navbar-link ${isActive ? 'active' : ''}`
+                  `px-3 py-2 text-lg font-medium transition-all duration-300 ${isActive
+                    ? 'border-b-2'
+                    : 'hover:border-b-2'
+                  }`
                 }
               >
                 {link.label}
