@@ -1,6 +1,7 @@
-import { useState } from "react";
+
+/* import { useState } from "react";
 import Forms from "../../components/templates/Forms";
-import ContactService from "../../services/ContactService";
+import ContactService from "../../services/Contact";
 
 function Contact() {
     const [formData, setFormData] = useState({
@@ -85,3 +86,4 @@ function Contact() {
 }
 
 export default Contact;
+*/

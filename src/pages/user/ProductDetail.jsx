@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CardsDisplay from "../../components/organisms/CardsDisplay";
 import { agregarAlCarrito } from "../../data/Cart";
-import ProductoService from "../../services/ProductoService"; // <-- importamos el service
+import ProductoService from "../../services/Producto"; 
 
 function ProductDetail() {
   const { id } = useParams();
