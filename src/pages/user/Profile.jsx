@@ -1,116 +1,75 @@
-import { useEffect, useState } from "react";
-import Text from "../../components/atoms/Text.jsx";
-import Forms from "../../components/templates/Forms";
-import Usuario from "../../services/Usuario";
+import { useAuth } from "../../context/AuthContext";
+import Text from "../../components/atoms/Text";
+import Button from "../../components/atoms/Button";
 
 function Profile() {
-    const [usuario, setUsuario] = useState(null);
-    const [formData, setFormData] = useState({
-        nombre: "",
-        correo: "",
-        contrasena: "",
-    });
+  const { user, logout } = useAuth();
 
-    useEffect(() => {
-        const userData = JSON.parse(localStorage.getItem("usuario_logueado"));
-        if (userData) {
-            setUsuario(userData);
-            setFormData({
-                nombre: userData.nombre,
-                correo: userData.correo,
-                contrasena: "",
-            });
-        }
-    }, []);
+  if (!user) {
+  }
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-    };
+  return (
+    <div className="max-w-4xl mx-auto my-10 p-6 bg-white shadow-lg rounded-lg">
+      <Text type="h1" className="text-3xl font-bold mb-6">
+        Mi Perfil
+      </Text>
 
-    const handleUpdate = async (e) => {
-        e.preventDefault();
-        try {
-            const updated = await Usuario.update({
-                usuario_id: usuario.usuario_id,
-                nombre: formData.nombre,
-                correo: formData.correo,
-                contrasena: formData.contrasena,
-                rol: usuario.rol,
-            });
-            alert("Perfil actualizado correctamente");
-            setUsuario(updated);
-            localStorage.setItem("usuario_logueado", JSON.stringify(updated));
-        } catch (err) {
-            alert("Error al actualizar perfil");
-        }
-    };
-
-    const handleLogout = () => {
-        localStorage.removeItem("usuario_logueado");
-        alert("Sesión cerrada");
-        window.location.href = "/auth/login";
-    };
-
-    const content = [
-        {
-            type: "inputs",
-            inputs: [
-                {
-                    label: "Nombre",
-                    name: "nombre",
-                    type: "text",
-                    placeholder: "Tu nombre",
-                    value: formData.nombre,
-                    onChange: handleChange,
-                },
-                {
-                    label: "Correo",
-                    name: "correo",
-                    type: "email",
-                    placeholder: "Tu correo",
-                    value: formData.correo,
-                    onChange: handleChange,
-                },
-                {
-                    label: "Contraseña",
-                    name: "contrasena",
-                    type: "password",
-                    placeholder: "Nueva contraseña (opcional)",
-                    value: formData.contrasena,
-                    onChange: handleChange,
-                },
-            ],
-        },
-        {
-            type: "button",
-            text: "Actualizar Perfil",
-            className: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded mt-3",
-            onClick: handleUpdate,
-        },
-        {
-            type: "button",
-            text: "Cerrar Sesión",
-            className: "bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded mt-3",
-            onClick: handleLogout,
-        },
-    ];
-
-    return (
-        <div className="max-w-2xl mx-auto my-10 bg-white shadow-md rounded-lg p-6">
-            <Text variant="h2" className="text-2xl font-bold mb-4">Mi Perfil</Text>
-            {usuario ? (
-                <>
-                    <Text variant="p" className="mb-4">
-                        Bienvenido <span className="font-semibold">{usuario.nombre}</span>
-                    </Text>
-                    <Forms content={content} />
-                </>
-            ) : (
-                <Text variant="p">No hay sesión activa</Text>
-            )}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-gray-50 p-6 rounded-lg">
+          <Text type="h2" className="text-xl font-semibold mb-4">
+            Información Personal
+          </Text>
+          <div className="space-y-3">
+            <div>
+              <Text type="p" className="text-gray-600 text-sm">
+                Nombre:
+              </Text>
+              <Text type="p" className="font-medium">
+                {user.nombre}
+              </Text>
+            </div>
+            <div>
+              <Text type="p" className="text-gray-600 text-sm">
+                Email:
+              </Text>
+              <Text type="p" className="font-medium">
+                {user.correo}
+              </Text>
+            </div>
+            <div>
+              <Text type="p" className="text-gray-600 text-sm">
+                Rol:
+              </Text>
+              <Text type="p" className="font-medium">
+                {user.rol?.nombre || "Usuario"}
+              </Text>
+            </div>
+          </div>
         </div>
-    );
+
+        <div className="bg-gray-50 p-6 rounded-lg">
+          <Text type="h2" className="text-xl font-semibold mb-4">
+            Acciones
+          </Text>
+          <div className="space-y-3">
+            <Button
+              onClick={() => (window.location.href = "/orders")}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2"
+              text="Mis Pedidos"
+            />
+
+            {(user.rol?.rol_id === 1 || user.rol?.nombre === "Admin") && (
+              <Button
+                onClick={() => (window.location.href = "/admin/dashboard")}
+                className="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-2"
+                text="Panel de Admin"
+              />
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Profile;

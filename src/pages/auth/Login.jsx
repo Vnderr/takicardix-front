@@ -1,75 +1,115 @@
 import { useState } from "react";
-import Forms from "../../components/templates/Forms";
-import Usuario from "../../services/Usuario"; 
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { Link } from "react-router-dom";
 
-function FormLogin() {
-  const [formData, setFormData] = useState({
+function Login() {
+  const [credentials, setCredentials] = useState({
     correo: "",
-    contrasena: "", 
+    contrasena: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { correo, contrasena } = formData;
+    setLoading(true);
+    setError("");
 
     try {
-      const usuario = await Usuario.login({ correo, contrasena });
-
-      alert(`Hola :D ${usuario.nombre}`);
-
-      setFormData({ correo: "", contrasena: "" });
+      await login(credentials);
+      navigate("/");
     } catch (err) {
-      alert("Impostor D: Credenciales incorrectas");
+      setError("Credenciales incorrectas. Por favor, intenta nuevamente.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const content = [
-    {
-      type: "inputs",
-      inputs: [
-        {
-          label: "Correo",
-          name: "correo",
-          type: "email",
-          placeholder: "ejemplo@correo.com",
-          value: formData.correo,
-          onChange: handleChange,
-        },
-        {
-          label: "Contraseña",
-          name: "contrasena", 
-          type: "password",
-          placeholder: "********",
-          value: formData.contrasena,
-          onChange: handleChange,
-        },
-      ],
-    },
-    {
-      type: "button",
-      text: "Iniciar sesión",
-      className: "btn btn-primary mt-3",
-      onClick: handleSubmit,
-    },
-    {
-      type: "button",
-      text: "Limpiar",
-      className: "btn btn-danger mt-3",
-      onClick: () => setFormData({ correo: "", contrasena: "" }),
-    },
-  ];
+  const handleChange = (e) => {
+    setCredentials({
+      ...credentials,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   return (
-    <main className="container my-5 card p-4">
-      <h2>Iniciar sesión</h2>
-      <Forms content={content} />
-    </main>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12">
+      <div className="max-w-md w-full bg-white rounded-lg shadow-md border border-gray-200 p-8">
+        <h1 className="text-3xl font-bold text-center text-gray-900 mb-2">
+          Iniciar Sesión
+        </h1>
+        <p className="text-gray-600 text-center mb-8">
+          Accede a tu cuenta de Takicardix
+        </p>
+
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Email
+            </label>
+            <input
+              type="email"
+              name="correo"
+              value={credentials.correo}
+              onChange={handleChange}
+              required
+              placeholder="tu@email.com"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Contraseña
+            </label>
+            <input
+              type="password"
+              name="contrasena"
+              value={credentials.contrasena}
+              onChange={handleChange}
+              required
+              placeholder="Tu contraseña"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors"
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className={`w-full py-3 px-4 rounded-lg font-medium transition-colors ${
+              loading
+                ? "bg-gray-400 text-gray-600 cursor-not-allowed"
+                : "bg-green-500 hover:bg-green-600 text-black font-bold"
+            }`}
+          >
+            {loading ? "Iniciando Sesión..." : "Iniciar Sesión"}
+          </button>
+        </form>
+
+        <div className="text-center mt-6 pt-6 border-t border-gray-200">
+          <p className="text-gray-600">
+            ¿No tienes cuenta?{" "}
+            <Link
+              to="/register"
+              className="text-green-600 hover:text-green-700 font-medium"
+            >
+              Regístrate aquí
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }
 
-export default FormLogin;
+export default Login;

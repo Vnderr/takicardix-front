@@ -1,15 +1,14 @@
-import axios from 'axios';
+import axios from "axios";
 
-const BASE_URL = 'https://takicardix.onrender.com/api/metodoEnvios';
 
+const BASE_URL = "https://takicardix.onrender.com/api/metodosEnvios";
 class MetodoEnvioService {
-
     async getAllMetodosEnvios() {
         try {
             const response = await axios.get(BASE_URL);
             return response.data;
         } catch (error) {
-            console.error('Error al obtener los métodos de envío:', error);
+            console.error("Error al obtener los métodos de envío:", error);
             throw error;
         }
     }
@@ -18,12 +17,15 @@ class MetodoEnvioService {
         try {
             const response = await axios.post(BASE_URL, metodoEnvioData, {
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
             });
             return response.data;
         } catch (error) {
-            console.error('Error al crear el metodo de envio:', error.response?.data || error.message);
+            console.error(
+                "Error al crear el metodo de envio:",
+                error.response?.data || error.message
+            );
             throw error;
         }
     }
@@ -32,12 +34,12 @@ class MetodoEnvioService {
         try {
             const response = await axios.patch(`${BASE_URL}/${id}`, metodoEnvioData, {
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
             });
             return response.data;
         } catch (error) {
-            console.error('Error al actualizar el metodo de envio::', error);
+            console.error("Error al actualizar el metodo de envio::", error);
             throw error;
         }
     }
@@ -47,7 +49,7 @@ class MetodoEnvioService {
             await axios.delete(`${BASE_URL}/${id}`);
             return true;
         } catch (error) {
-            console.error('Error al eliminar el metodo de envio::', error);
+            console.error("Error al eliminar el metodo de envio::", error);
             throw error;
         }
     }

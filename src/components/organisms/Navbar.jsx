@@ -1,52 +1,87 @@
-import React, { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import '../../styles/navbar.css';
+import { useAuth } from "../../context/AuthContext";
+import { Link, useLocation } from "react-router-dom";
 
-function Navbar({ links, title }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
+function Navbar({ links = [], title = "Takicardix" }) {
+  const { user, logout, getCartItemsCount } = useAuth();
+  const location = useLocation();
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    navigate('/login');
-    setIsOpen(false);
-  };
-
-  const handleLinkClick = (e, link) => {
-    if (link.label === 'Salir') {
-      e.preventDefault();
-      handleLogout();
-    } else {
-      setIsOpen(false);
-    }
-  };
+  const isAdminRoute = location.pathname.startsWith("/admin");
 
   return (
-    <nav className="navbar shadow-lg sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex-shrink-0">
-            <h1 className="navbar-titulo text-2xl font-bold tracking-wider">
-              {title}
-            </h1>
-          </div>
+    <nav className="bg-black text-white py-4 border-b-2 border-green-500">
+      <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
+        {/* Logo/Título */}
+        <div>
+          <Link
+            to="/"
+            className="text-2xl font-bold text-green-500 hover:text-green-400 transition-colors"
+          >
+            {title}
+          </Link>
+        </div>
 
-          <div className="navbar-link hidden md:flex space-x-8">
-            {links.map((link, i) => (
-              <NavLink
-                key={i}
-                to={link.to}
-                onClick={(e) => handleLinkClick(e, link)}
-                className={({ isActive }) =>
-                  `navbar-link px-3 py-2 text-lg font-medium transition-all duration-300 ${isActive
-                  }`
-                }
+        {/* Links de Navegación */}
+        <div className="hidden md:flex space-x-6">
+          {links.map((link, index) => (
+            <Link
+              key={index}
+              to={link.to}
+              className="text-white hover:text-green-500 transition-colors font-medium"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
+
+        {/* Sección de Usuario */}
+        <div className="flex items-center space-x-4">
+          {/* Carrito - SOLO EN RUTAS NO ADMIN */}
+          {!isAdminRoute && (
+            <Link
+              to="/cart"
+              className="relative text-white hover:text-green-500 transition-colors"
+            >
+              Carrito
+              {getCartItemsCount() > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {getCartItemsCount()}
+                </span>
+              )}
+            </Link>
+          )}
+
+          {/* Estado de Usuario */}
+          {user ? (
+            <div className="flex items-center space-x-3">
+              <Link
+                to="/profile"
+                className="bg-blue-500 hover:bg-blue-600 text-black px-3 py-1 rounded transition-colors font-medium"
               >
-                {link.label}
-              </NavLink>
-            ))}
-          </div>
+                {user.nombre || user.correo}
+              </Link>
+              <button
+                onClick={logout}
+                className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded transition-colors"
+              >
+                Cerrar Sesión
+              </button>
+            </div>
+          ) : (
+            <div className="flex space-x-3">
+              <Link
+                to="/login"
+                className="bg-blue-500 hover:bg-blue-600 text-black px-3 py-1 rounded transition-colors font-medium"
+              >
+                Iniciar Sesión
+              </Link>
+              <Link
+                to="/register"
+                className="bg-blue-500 hover:bg-blue-600 text-black px-3 py-1 rounded transition-colors font-medium"
+              >
+                Registrarse
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </nav>

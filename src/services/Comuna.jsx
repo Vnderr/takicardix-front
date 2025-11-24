@@ -1,52 +1,40 @@
-import axios from 'axios';
+import axios from "axios";
 
-const BASE_URL = 'https://takicardix.onrender.com/api/comunas';
+const BASE_URL = "https://takicardix.onrender.com/api/comunas";
 
 class ComunaService {
-
-    async getAllComunas() {
-        try {
-            const response = await axios.get(BASE_URL);
-            return response.data;
-        } catch (error) {
-            console.error('Error al obtener las Comunas:', error);
-            throw error;
-        }
+  async getAllComunas() {
+    try {
+      const response = await axios.get(BASE_URL);
+      return response.data;
+    } catch (error) {
+      console.error("Error al obtener las comunas:", error);
+      throw error;
     }
+  }
 
-    async createComuna(comunaData) {
-        try {
-            const response = await axios.post(BASE_URL, comunaData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            return response.data;
-        } catch (error) {
-            console.error('Error al crear la Comuna:', error.response?.data || error.message);
-            throw error;
-        }
+  async getComunaById(id) {
+    try {
+      const response = await axios.get(`${BASE_URL}/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error al obtener la comuna:", error);
+      throw error;
     }
+  }
 
-    async updateComuna(id, comunaData) {
-        try {
-            const response = await axios.patch(`${BASE_URL}/${id}`, comunaData);
-            return response.data;
-        } catch (error) {
-            console.error('Error al actualizar la Comuna:', error);
-            throw error;
-        }
-    }
 
-    async deleteComuna(id) {
-        try {
-            await axios.delete(`${BASE_URL}/${id}`);
-            return true;
-        } catch (error) {
-            console.error('Error al eliminar la Comuna:', error);
-            throw error;
-        }
+  async getComunasByRegion(regionId) {
+    try {
+      const allComunas = await this.getAllComunas();
+      return allComunas.filter(
+        (comuna) => comuna.region?.region_id === regionId
+      );
+    } catch (error) {
+      console.error("Error al obtener comunas por región:", error);
+      throw error;
     }
+  }
 }
 
 export default new ComunaService();

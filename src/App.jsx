@@ -1,31 +1,24 @@
-import { Routes, Route, useLocation, matchPath } from 'react-router-dom';
-import { Suspense } from 'react';
-import { adminLinks } from './data/NavbarAdmin';
-import { publicLinks } from './data/NavbarUser';
-import { appRoutes } from './routes/config';
-import Navbar from './components/organisms/Navbar';
-import Footer from './components/organisms/Footer';
-
-
-
+import { Routes, Route, useLocation, matchPath } from "react-router-dom";
+import { Suspense } from "react";
+import { adminLinks } from "./data/NavbarAdmin";
+import { publicLinks } from "./data/NavbarUser";
+import { appRoutes } from "./routes/config";
+import Navbar from "./components/organisms/Navbar";
+import Footer from "./components/organisms/Footer";
 
 function Layout() {
   const location = useLocation();
 
-  // Detectar si es ruta admin
-  const isAdminRoute = location.pathname.startsWith('/admin');
+  const isAdminRoute = location.pathname.startsWith("/admin");
 
-  // Buscar la ruta actual en la config
-  const currentRoute = appRoutes.find(route =>
+  const currentRoute = appRoutes.find((route) =>
     matchPath({ path: route.path, end: true }, location.pathname)
   );
 
-  // Mostrar navbar si corresponde
   const showNavbar = isAdminRoute || currentRoute?.showNavbar;
 
-  // Links y título dinámicos
   const navbarLinks = isAdminRoute ? adminLinks : publicLinks;
-  const navbarTitle = isAdminRoute ? 'Admin Takicardix' : 'Takicardix';
+  const navbarTitle = isAdminRoute ? "Admin Takicardix" : "Takicardix";
 
   return (
     <>

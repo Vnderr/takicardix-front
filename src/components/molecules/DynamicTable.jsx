@@ -18,6 +18,17 @@ function DynamicTable({ columns = [], data = [], className = '', striped = true,
         return str.startsWith('http') || str.startsWith('/') || str.includes('.png') || str.includes('.jpg') || str.includes('.jpeg') || str.includes('.svg') || str.includes('.gif') || str.includes('.webp');
     };
 
+    const renderCellValue = (value) => {
+        if (value === null || value === undefined) return '';
+        if (typeof value === 'string' || typeof value === 'number') return value;
+        if (typeof value === 'object') {
+            if (value.nombre) return value.nombre;
+            if (value.label) return value.label;
+            return JSON.stringify(value);
+        }
+        return String(value);
+    };
+
     return (
         <div className={`overflow-x-auto rounded-lg shadow-sm ${className}`}>
             <table className="w-full border-collapse bg-white">
@@ -25,7 +36,7 @@ function DynamicTable({ columns = [], data = [], className = '', striped = true,
                     <tr className="bg-gray-100 border-b">
                         {columns.map((header, index) => (
                             <th key={index} className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider" >
-                                {header}
+                                {typeof header === 'string' ? header : header.label || header.key}
                             </th>
                         ))}
                     </tr>
@@ -34,15 +45,18 @@ function DynamicTable({ columns = [], data = [], className = '', striped = true,
                 <tbody className="divide-y divide-gray-200">
                     {data.map((row, rowIndex) => {
                         const cells = isArrayFormat ? row : columns.map((col) => {
-                            const key = col.toLowerCase();
-                            return row[col] ?? row[key] ?? '';
+                            const key = typeof col === 'string' ? col.toLowerCase() : col.key;
+                            
+                            const cellValue = row[col] ?? row[key] ?? '';
+                            return renderCellValue(cellValue);
                         });
 
                         return (
                             <tr key={row.id || rowIndex} className={`  ${striped && rowIndex % 2 === 0 ? 'bg-gray-50' : ''} ${hover ? 'hover:bg-gray-100' : ''} transition-colors`} >
                                 {cells.map((cell, cellIndex) => {
                                     const header = columns[cellIndex];
-                                    const headerLower = header.toLowerCase();
+                                    const headerText = typeof header === 'string' ? header : header.label || header.key;
+                                    const headerLower = headerText.toLowerCase();
 
                                     if (headerLower === 'acciones') {
                                         return (
@@ -67,7 +81,7 @@ function DynamicTable({ columns = [], data = [], className = '', striped = true,
                                     return (
                                         <td key={cellIndex} className={`px-4 py-3 text-sm text-gray-900 align-top ${isImageColumn ? 'whitespace-normal' : 'whitespace-nowrap'} `}>
                                             {shouldShowImage ? (
-                                                <Image src={cell} alt={header} className="h-12 w-12 object-contain rounded-lg shadow-sm"
+                                                <Image src={cell} alt={headerText} className="h-12 w-12 object-contain rounded-lg shadow-sm"
                                                     onError={(e) => {
                                                         e.target.style.display = 'none';
                                                         e.target.nextSibling.style.display = 'block';
@@ -75,7 +89,7 @@ function DynamicTable({ columns = [], data = [], className = '', striped = true,
                                                 />
                                             ) : null}
                                             <span className={shouldShowImage ? 'hidden' : ''}>
-                                                {cell}
+                                                {renderCellValue(cell)}
                                             </span>
                                         </td>
                                     );

@@ -1,11 +1,6 @@
 export const publicLinks = [
-    { to: '/', label: 'Inicio' },
-    { to: '/products', label: 'Productos' },
-    { to: '/contact', label: 'Contacto' },
-    { to: '/about', label: 'Nosotros' },
-    { to: '/profile', label: 'Perfil' },
-    { to: '/orders', label: 'Mis Compras' },
-    { to: '/login', label: 'Iniciar sesión' },
-    { to: '/register', label: 'Registrar' },
-    { to: '/cart', label: '🛒 Carrito' },
+  { to: "/", label: "Inicio" },
+  { to: "/products", label: "Productos" },
+  { to: "/contact", label: "Contacto" },
+  { to: "/about", label: "Sobre Nosotros" },
 ];

@@ -1,8 +1,6 @@
-import { Container, Card } from 'react-bootstrap';
-import Text from '../../components/atoms/Text.jsx';
 import { useState } from "react";
-import Forms from '../../components/templates/Forms';
-import Usuario from "../../services/Usuario"; 
+import { Link } from "react-router-dom";
+import Usuario from "../../services/Usuario";
 
 function RegistroForm() {
   const [formData, setFormData] = useState({
@@ -13,14 +11,16 @@ function RegistroForm() {
     confirmarContraseña: "",
     telefono: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const errores = [];
+    setLoading(true);
 
+    const errores = [];
     const {
       nombre,
       correo,
@@ -37,12 +37,14 @@ function RegistroForm() {
     if (nombre.length > 100)
       errores.push("El nombre no puede exceder 100 caracteres.");
 
-    const correoPattern = /^[\w.-]+@(duocuc\.cl|profesor\.duoc\.cl|gmail\.com)$/;
+    const correoPattern =
+      /^[\w.-]+@(duocuc\.cl|profesor\.duoc\.cl|gmail\.com)$/;
     if (correo.trim() === "") errores.push("El correo es obligatorio.");
     else if (!correoPattern.test(correo))
-      errores.push("El correo debe ser @duoc.cl, @profesor.duoc.cl o @gmail.com.");
-    if (correo !== confirmarCorreo)
-      errores.push("Los correos no coinciden.");
+      errores.push(
+        "El correo debe ser @duoc.cl, @profesor.duoc.cl o @gmail.com."
+      );
+    if (correo !== confirmarCorreo) errores.push("Los correos no coinciden.");
 
     const contraseñaPattern = /^[A-Za-z0-9]+$/;
     if (contraseña.length < 6 || contraseña.length > 15)
@@ -58,12 +60,13 @@ function RegistroForm() {
 
     if (errores.length > 0) {
       alert(errores.join("\n"));
+      setLoading(false);
     } else {
       try {
         await Usuario.createUsuario({
           nombre,
           correo,
-          contrasena: contraseña, 
+          contrasena: contraseña,
           telefono,
         });
 
@@ -78,55 +81,165 @@ function RegistroForm() {
         });
       } catch (err) {
         alert("Error al registrar usuario. Intenta nuevamente.");
+      } finally {
+        setLoading(false);
       }
     }
   };
 
-  const content = [
-    {
-      type: "inputs",
-      inputs: [
-        { label: "Nombre", name: "nombre", type: "text", placeholder: "Ingresa tu nombre", value: formData.nombre, onChange: handleChange },
-        { label: "Correo", name: "correo", type: "email", placeholder: "Ingresa tu correo", value: formData.correo, onChange: handleChange },
-        { label: "Confirmar Correo", name: "confirmarCorreo", type: "email", placeholder: "Repite tu correo", value: formData.confirmarCorreo, onChange: handleChange },
-        { label: "Contraseña", name: "contraseña", type: "password", placeholder: "Ingresa tu contraseña", value: formData.contraseña, onChange: handleChange },
-        { label: "Confirmar Contraseña", name: "confirmarContraseña", type: "password", placeholder: "Repite tu contraseña", value: formData.confirmarContraseña, onChange: handleChange },
-        { label: "Teléfono", name: "telefono", type: "text", placeholder: "Ej: 912345678", value: formData.telefono, onChange: handleChange }
-      ]
-    },
-    {
-      type: "button",
-      text: "Registrarse",
-      className: "btn btn-primary mt-3",
-      onClick: handleSubmit
-    },
-    {
-      type: "button",
-      text: "Limpiar",
-      className: "btn btn-danger mt-3",
-      onClick: () => setFormData({
-        nombre: "",
-        correo: "",
-        confirmarCorreo: "",
-        contraseña: "",
-        confirmarContraseña: "",
-        telefono: "",
-      })
-    }
-  ];
-
   return (
-    <Container className="my-5">
-      <Card>
-        <Card.Body>
-          <Text variant="h2">Formulario de Registro</Text>
-          <Text variant="p">
-            Por favor completa todos los campos para crear tu cuenta.
-          </Text>
-          <Forms content={content} />
-        </Card.Body>
-      </Card>
-    </Container>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12">
+      <div className="max-w-md w-full bg-white rounded-lg shadow-md border border-gray-200 p-8">
+        <h1 className="text-3xl font-bold text-center text-gray-900 mb-2">
+          Crear Cuenta
+        </h1>
+        <p className="text-gray-600 text-center mb-8">
+          Completa todos los campos para registrarte
+        </p>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Nombre */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Nombre
+            </label>
+            <input
+              type="text"
+              name="nombre"
+              value={formData.nombre}
+              onChange={handleChange}
+              placeholder="Ingresa tu nombre"
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors"
+            />
+          </div>
+
+          {/* Correo */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Correo
+            </label>
+            <input
+              type="email"
+              name="correo"
+              value={formData.correo}
+              onChange={handleChange}
+              placeholder="Ingresa tu correo"
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors"
+            />
+          </div>
+
+          {/* Confirmar Correo */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Confirmar Correo
+            </label>
+            <input
+              type="email"
+              name="confirmarCorreo"
+              value={formData.confirmarCorreo}
+              onChange={handleChange}
+              placeholder="Repite tu correo"
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors"
+            />
+          </div>
+
+          {/* Contraseña */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Contraseña
+            </label>
+            <input
+              type="password"
+              name="contraseña"
+              value={formData.contraseña}
+              onChange={handleChange}
+              placeholder="Ingresa tu contraseña"
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors"
+            />
+          </div>
+
+          {/* Confirmar Contraseña */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Confirmar Contraseña
+            </label>
+            <input
+              type="password"
+              name="confirmarContraseña"
+              value={formData.confirmarContraseña}
+              onChange={handleChange}
+              placeholder="Repite tu contraseña"
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors"
+            />
+          </div>
+
+          {/* Teléfono */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Teléfono
+            </label>
+            <input
+              type="text"
+              name="telefono"
+              value={formData.telefono}
+              onChange={handleChange}
+              placeholder="Ej: 912345678"
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors"
+            />
+          </div>
+
+          {/* Botones */}
+          <div className="flex gap-3 pt-4">
+            <button
+              type="submit"
+              disabled={loading}
+              className={`flex-1 py-3 px-4 rounded-lg font-bold transition-colors ${
+                loading
+                  ? "bg-gray-400 text-gray-600 cursor-not-allowed"
+                  : "bg-green-500 hover:bg-green-600 text-black"
+              }`}
+            >
+              {loading ? "Registrando..." : "Registrarse"}
+            </button>
+
+            <button
+              type="button"
+              onClick={() =>
+                setFormData({
+                  nombre: "",
+                  correo: "",
+                  confirmarCorreo: "",
+                  contraseña: "",
+                  confirmarContraseña: "",
+                  telefono: "",
+                })
+              }
+              className="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 px-4 rounded-lg font-bold transition-colors"
+            >
+              Limpiar
+            </button>
+          </div>
+        </form>
+
+        <div className="text-center mt-6 pt-6 border-t border-gray-200">
+          <p className="text-gray-600">
+            ¿Ya tienes cuenta?{" "}
+            <Link
+              to="/login"
+              className="text-green-600 hover:text-green-700 font-medium"
+            >
+              Inicia sesión aquí
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }
 

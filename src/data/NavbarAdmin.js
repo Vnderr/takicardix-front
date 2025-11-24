@@ -5,5 +5,5 @@ export const adminLinks = [
   { to: '/admin/comunas', label: 'Comunas' },
   { to: '/admin/ventas', label: 'Ventas' },
   { to: '/admin/facciones', label: 'Facciones' },
-  { to: '/logout', label: 'Salir' }, // para cerrar sesión
+  { to: '/logout', label: 'Salir' },
 ];
