@@ -9,7 +9,7 @@ const Contact = lazy(() => import("../pages/user/Contact"));
 const About = lazy(() => import("../pages/user/About"));
 const Profile = lazy(() => import("../pages/user/Profile"));
 const Checkout = lazy(() => import("../pages/user/Checkout"));
-const Orders = lazy(() => import("../pages/user/orders"));
+const Orders = lazy(() => import("../pages/user/Orders"));
 const OrderDetail = lazy(() => import("../pages/user/ordenDetail"));
 
 
