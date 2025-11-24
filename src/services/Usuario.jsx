@@ -73,24 +73,9 @@ class UsuarioService {
     }
   }
 
-  async login(usuario) {
-    try {
-      const response = await axios.post(`${BASE_URL}/login`, usuario, {
-        headers: { "Content-Type": "application/json" },
-      });
-      return response.data;
-    } catch (error) {
-      console.error(
-        "Error al iniciar sesión:",
-        error.response?.data || error.message
-      );
-      throw error;
-    }
-  }
-
   async login(credentials) {
     try {
-      console.log("📡 Enviando login a API...", credentials); 
+      console.log("📡 Enviando login a API...", credentials);
       const response = await axios.post(
         `${BASE_URL}/login`,
         {
@@ -101,12 +86,11 @@ class UsuarioService {
           headers: { "Content-Type": "application/json" },
         }
       );
-
-      console.log("📡 Respuesta de API:", response.data); 
+      console.log("📡 Respuesta de API:", response.data);
       return response.data;
     } catch (error) {
       console.error(
-        " Error en servicio login:",
+        "Error en servicio login:",
         error.response?.data || error.message
       );
       throw error;
