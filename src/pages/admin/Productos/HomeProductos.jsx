@@ -122,7 +122,7 @@ function HomeProductos() {
       <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-gray-50 p-6 rounded-lg border">
           <Text variant="h3" className="text-lg font-semibold mb-3">
-            📊 Resumen del Mes
+            Resumen del Mes
           </Text>
           <Text variant="p" className="text-gray-600 mb-2">
             • Productos agregados este mes: 0
@@ -137,7 +137,7 @@ function HomeProductos() {
 
         <div className="bg-gray-50 p-6 rounded-lg border">
           <Text variant="h3" className="text-lg font-semibold mb-3">
-            ⚡ Acciones Pendientes
+            Acciones Pendientes
           </Text>
           <Text variant="p" className="text-gray-600 mb-2">
             • Revisar productos sin imagen: 0
